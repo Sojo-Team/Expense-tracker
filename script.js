@@ -30,7 +30,7 @@ const addTransactionDOM = transaction => {
 const updateValues = () => {
   const amount = transactions.map(item => item.amount)
   console.log(amount)
-  const total = amount.reduce((acc, item) => acc + item, 0) * -1
+  const total = amount.reduce((acc, item) => acc + item, 0)
 
   const income = amount
     .filter(item => item > 0)
@@ -53,6 +53,14 @@ const updateLocalStorage = () => {
   localStorage.setItem('transactions', JSON.stringify(transactions))
 }
 
+const init = () => {
+  list.innerHTML = ''
+  transactions.forEach(addTransactionDOM)
+  updateValues()
+}
+
+init()
+
 const addTransaction = e => {
   e.preventDefault()
 
@@ -64,7 +72,7 @@ const addTransaction = e => {
   const transaction = {
     id: generateId(),
     text: text.value,
-    amount: amount.value,
+    amount: Number(amount.value),
   }
   transactions.push(transaction)
   addTransactionDOM(transaction)
